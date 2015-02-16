@@ -1,0 +1,23 @@
+UDP - iz best for dis
+Server - Uppdatering sker serverside 
+Tillståndsbaserad
+
+Person connectar - Ge den ett skepp som den styr 
+Titta IP och Port och uppdatera ett skepp beroende på dessa 
+Servern äger entities
+Uppdatera periodiskt - Hur ofta?
+
+Prevention of DOS
+Titta att meddelanden kommer från servern 
+	om inte - kasta bort meddelandet
+	Jämför addresser
+Input - 1 tråd (alla blir påverkade om servern blir dosad)
+Output - En för varje klient, högre output, komplexare meddelanden
+
+Meddelande client 
+	Kan vara vilka knappar som är intryckta , minimal data 
+
+Handshake kanal - Får en handshake skicka tillbaka vart input kanalen är
+Input kanal
+
+Map<Spelaren, Skepp> kanske
