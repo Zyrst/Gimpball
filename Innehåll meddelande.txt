@@ -1,0 +1,10 @@
+Vad som kan tänkas skickas : 
+Score
+Positioner
+Hastigheter - Bollen, spelare
+Riktningar
+
+
+
+Saker som kan tänkas på senare : 
+Kollision

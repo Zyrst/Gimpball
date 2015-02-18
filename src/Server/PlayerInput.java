@@ -16,10 +16,8 @@ public class PlayerInput implements Runnable {
 	
 	@Override
 	public void run() {
-		// TODO Make a new thread which takes a player input
 		byte[] buf = new byte[256];
 		DatagramPacket packet = new DatagramPacket(buf, buf.length);
-		int left, right,forward,brake = 0;
 		while(true){
 			try {
 				m_socket.receive(packet);
@@ -27,16 +25,16 @@ public class PlayerInput implements Runnable {
 				System.err.println("Not able to receive packet");
 				e.printStackTrace();
 			}
-			
+			//TODO Make sure that the value of a buff is 0 or 1 and not 49 or something else
 			/*left = buf [0], right [1], forward[2], brake[3] */
-			left = buf[0];
-			right = buf[1];
-			forward = buf[2];
-			brake = buf[3];
-			Client client = m_Clients.get(new ClientConnection(packet.getPort(),packet.getAddress()));
-			
-		}
+			int[] keys = null;
+			for(int i = 0; i <= 4; i++)
+			{
+				keys[i] = buf[i];
+			}
 		
+			Client client = m_Clients.get(new ClientConnection(packet.getPort(),packet.getAddress()));
+			client.setKeys(keys);
+		}	
 	}
-
 }

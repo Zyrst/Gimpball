@@ -3,10 +3,12 @@ package Server;
 public class Client {	
 	private final ClientConnection m_clientConnection;
 	private boolean left, right, forward,brake = false;
+	
 	Client(ClientConnection clientConnection){
 		m_clientConnection = clientConnection;
 	}
 	
+	//If not 1 generates a false which means the key is not pressed
 	void setKeys(int[] keys){
 		//If key is 1 then it's pressed 
 		left 	= (keys[0] != 1);
