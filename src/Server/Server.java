@@ -22,30 +22,27 @@ public class Server implements Runnable {
 	private static ConcurrentLinkedQueue<byte[]> m_messageQueue = new ConcurrentLinkedQueue<byte[]>();
 	
 	public static void main(String[] args) {
-		try {
-			
-			Thread instance = new Thread(new Server(m_port));
-			instance.start();
-			
-			Thread input = new Thread(new PlayerInput(m_clientSocket, m_clients));
-			input.start();
-			
-			Thread output = new Thread(new OutputThread(m_messageQueue, m_clients, m_clientSocket));
-			output.start();
-			
-			
-			//World.getInstance().process();
-			
-			
-		} catch (IOException e) {
-			System.err.println("Not able to make a server and threads");
-			e.printStackTrace();
-		}
+		Thread instance = new Thread(new Server(m_port));
+		instance.start();
+		
+		Thread input = new Thread(new PlayerInput(m_clientSocket, m_clients));
+		input.start();
+		
+		Thread output = new Thread(new OutputThread(m_messageQueue, m_clients, m_clientSocket));
+		output.start();
+		
+		World.getInstance().process();
 	}
 	
-	Server(int port) throws SocketException {
-		m_socket = new DatagramSocket(port); 
-		m_clientSocket = new DatagramSocket();
+	Server(int port) {
+		try {
+			m_socket = new DatagramSocket(port);
+			m_clientSocket = new DatagramSocket();
+		} catch (SocketException e) {
+			e.printStackTrace();
+			System.err.println("Not able to bind server sockets");
+		} 
+		System.out.println("Client port: " + m_clientSocket.getLocalPort());
 	}
 	
 	@Override
@@ -53,7 +50,7 @@ public class Server implements Runnable {
 		// Receive message
 		while(true){
 		
-			byte[] buf = new byte[8];
+			byte[] buf = new byte[24];
 			DatagramPacket packet = new DatagramPacket(buf, buf.length);
 			try {
 				m_socket.receive(packet);
@@ -79,7 +76,8 @@ public class Server implements Runnable {
 					buf = new byte[24];
 					if(m_clients.containsKey(clientConnection)){
 						// Client exists in map
-						String msg = "1 " + m_clientSocket.getPort();
+						System.out.println("Size of clients: " + (m_clients.size() - 1));
+						String msg = "1 " + m_clientSocket.getLocalPort() + " " + (m_clients.size() - 1);
 						buf = msg.getBytes();
 					}
 					else{

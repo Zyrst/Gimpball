@@ -113,6 +113,10 @@ public abstract class GameEntity implements Serializable{
     public void displace(final Vector2D displacement) {
 	m_position.add(displacement);
     }
+    public boolean[] getKeys(){
+    	boolean[] keys = {false,false,false,false};
+    	return keys;
+    }
     
 }
 

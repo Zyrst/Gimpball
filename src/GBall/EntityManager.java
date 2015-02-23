@@ -2,6 +2,7 @@ package GBall;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -13,6 +14,19 @@ public class EntityManager {
 
     public static EntityManager getInstance() {
         return SingletonHolder.instance;
+    }
+    
+    public boolean[] getShipKeys(int id){
+    	int x = 0;
+    	for(Iterator<GameEntity> itr = m_entities.iterator(); itr.hasNext();){
+    		GameEntity g = itr.next();
+    		x++;
+    		if(id == x){
+    			return g.getKeys();
+    		}
+    	}
+    	boolean[] empty = {false,false,false,false};
+    	return empty;
     }
 
     private EntityManager() {
