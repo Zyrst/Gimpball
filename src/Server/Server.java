@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Map;
 import java.util.Queue;
 
-import GBall.World;
+import GBall.Server.World;
 
 public class Server implements Runnable {
 
@@ -31,6 +31,7 @@ public class Server implements Runnable {
 		Thread output = new Thread(new OutputThread(m_messageQueue, m_clients, m_clientSocket));
 		output.start();
 		
+		World.getInstance().setClientMap(m_clients);
 		World.getInstance().process();
 	}
 	
@@ -67,7 +68,7 @@ public class Server implements Runnable {
 					if(m_clients.size() < 4){
 						if(!m_clients.containsKey(clientConnection)){
 							System.out.println("Added a client");
-							Client client = new Client(clientConnection);
+							Client client = new Client(clientConnection,(m_clients.size()));
 							m_clients.put(clientConnection, client);
 						}
 					}

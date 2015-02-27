@@ -5,8 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import GBall.World;
-import GBall.EntityManager;
+import GBall.Client.World;
+import GBall.Client.EntityManager;
 
 public class OutputThread implements Runnable {
 	private static DatagramSocket m_socket;
@@ -41,6 +41,9 @@ public class OutputThread implements Runnable {
 					buf[i] = 0;
 				}
 			}
+			
+			//System.out.println(keys[0] + " | " + keys[1] + " | " + keys[2] + " | " + keys[3]);
+			
 			DatagramPacket packet = new DatagramPacket(buf,buf.length,m_serverAddress, m_gamePort);
 			try {
 				m_socket.send(packet);
@@ -49,7 +52,8 @@ public class OutputThread implements Runnable {
 				e1.printStackTrace();
 			}
 			try {
-				Thread.sleep(100);
+				// TODO Change delay
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				System.err.println("Did not want to sleep output thread");
 				e.printStackTrace();

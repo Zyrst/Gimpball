@@ -7,14 +7,14 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import GBall.World;
+import GBall.Client.World;
 
 public class GameClient {
 	//TODO Input and players positions and ball position
 	private static DatagramSocket m_socket;
 	private static int m_serverPort = 4444;
 	private static int m_gamePort = -1;
-	private static InetAddress m_serverAddress; 
+	private static InetAddress m_serverAddress;
 	private static String m_hostName = null;
 	private static int m_shipNum = -1;
 	
