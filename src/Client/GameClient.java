@@ -38,7 +38,7 @@ public class GameClient {
 		Thread output = new Thread(new OutputThread(m_socket,m_shipNum, m_gamePort, m_serverAddress));
 		output.start();
 		
-		Thread input = new Thread(new InputThread(m_socket));
+		Thread input = new Thread(new InputThread(m_socket, m_gamePort, m_serverAddress));
 		input.start();
 		
 		World.getInstance().process();
@@ -85,5 +85,23 @@ public class GameClient {
 			System.out.println("Unable to join server");
 			System.exit(1);
 		}
+	}
+	
+	public static void disconnect(){
+		DatagramPacket packet;
+		
+		byte[] buf = new byte[24];
+		
+		buf = "1".getBytes();
+		packet = new DatagramPacket(buf, buf.length, m_serverAddress, m_serverPort);
+		try {
+			m_socket.send(packet);
+		} catch (IOException e) {
+			System.err.println("Not able to send disconnect message");
+			e.printStackTrace();
+		}
+		System.out.println("Sent a disconnect message");
+		
+		System.exit(0);
 	}
 }

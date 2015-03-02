@@ -1,6 +1,7 @@
 package GBall.Client;
 
 import java.awt.Color;
+import Client.GameClient;
 import java.awt.event.*;
 
 public class Ship extends GameEntity implements KeyListener {
@@ -38,8 +39,7 @@ public class Ship extends GameEntity implements KeyListener {
     public void keyPressed(KeyEvent e) {
 	try {
             if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            	//Disconnect
-		System.exit(0);
+            	GameClient.disconnect();
 	    }
 	    else if(e.getKeyCode() == m_keyConfig.rightKey()) {
 		rotation = 1;

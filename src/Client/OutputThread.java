@@ -58,6 +58,17 @@ public class OutputThread implements Runnable {
 				System.err.println("Did not want to sleep output thread");
 				e.printStackTrace();
 			}
+			
+			long sleepTime = World.getInstance().sleepTime();
+			
+			if(sleepTime > 0){
+				try {
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

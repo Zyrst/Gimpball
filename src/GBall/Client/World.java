@@ -67,12 +67,22 @@ public class World {
     
 	
 	while(true) {
-	    if(newFrame()) {
-		EntityManager.getInstance().updatePositions();
-		EntityManager.getInstance().checkBorderCollisions(Const.DISPLAY_WIDTH, Const.DISPLAY_HEIGHT);
-		EntityManager.getInstance().checkShipCollisions();
-		m_gameWindow.repaint();
-	    }
+		if(newFrame()){
+			EntityManager.getInstance().updatePositions();
+			EntityManager.getInstance().checkBorderCollisions(Const.DISPLAY_WIDTH, Const.DISPLAY_HEIGHT);
+			EntityManager.getInstance().checkShipCollisions();
+			m_gameWindow.repaint();
+		}
+		else{
+			if(sleepTime() > 0){
+				try {
+					Thread.sleep(sleepTime());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
     }
 
@@ -87,30 +97,40 @@ public class World {
 		    }
 		    m_actualFps = 1000 / delta;
 		}
+			
 		return rv;
+    }
+    
+    public long sleepTime() {
+		double currentTime = System.currentTimeMillis();
+		double delta = currentTime - m_lastTime;
+			
+		return (long) (Const.FRAME_INCREMENT - delta);
     }
 
     private void initPlayers() {
-	// Team 1
+	// Team 1, player 1
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM1_SHIP1_X, Const.START_TEAM1_SHIP1_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(1.0, 0.0),
 			      Const.TEAM1_COLOR
 			      );
 	
+	// Team 2, player 2
+		EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM2_SHIP1_X, Const.START_TEAM2_SHIP1_Y),
+				      new Vector2D(0.0, 0.0),
+				      new Vector2D(-1.0, 0.0),
+				      Const.TEAM2_COLOR
+				      );
+	
+	// Team 1, player 3
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM1_SHIP2_X, Const.START_TEAM1_SHIP2_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(1.0, 0.0),
 			      Const.TEAM1_COLOR
 			      );
 	
-	// Team 2
-	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM2_SHIP1_X, Const.START_TEAM2_SHIP1_Y),
-			      new Vector2D(0.0, 0.0),
-			      new Vector2D(-1.0, 0.0),
-			      Const.TEAM2_COLOR
-			      );
-	
+	// Team 2, player 4
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM2_SHIP2_X, Const.START_TEAM2_SHIP2_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(-1.0, 0.0),

@@ -9,7 +9,9 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import GBall.Client.GameEntity;
+import GBall.Server.Const;
+import GBall.Server.GameEntity;
+import GBall.Server.World;
 
 public class OutputThread implements Runnable {
 	private static ConcurrentLinkedQueue<byte[]> m_messageQueue;
@@ -56,6 +58,17 @@ public class OutputThread implements Runnable {
 				}
 				
 				m_messageQueue.remove();
+			}
+			
+			long sleepTime = World.getInstance().sleepTime();
+			
+			if(sleepTime > 0){
+				try {
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}

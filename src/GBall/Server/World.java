@@ -47,7 +47,7 @@ public class World {
     public void process() {
 	initPlayers();
 	
-	// Marshal the state    
+	// Marshal the state
 	try {
 	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DatagramSocket m_socket = new DatagramSocket();
@@ -114,10 +114,19 @@ public class World {
 				byte[] byteMessage = message.getBytes();
 				m_messageQueue.add(byteMessage);
 			}
-			
 	    }
+	    else{
+			if(sleepTime() > 0){
+				try {
+					Thread.sleep(sleepTime());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
-    }
+    } 
 
     private boolean newFrame() {
 		double currentTime = System.currentTimeMillis();
@@ -132,24 +141,23 @@ public class World {
 		}
 		return rv;
     }
+    
+    public long sleepTime() {
+		double currentTime = System.currentTimeMillis();
+		double delta = currentTime - m_lastTime;
+			
+		return (long) (Const.FRAME_INCREMENT - delta);
+    }
 
     private void initPlayers() {
-	// Team 1
+	// Team 1, player 1
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM1_SHIP1_X, Const.START_TEAM1_SHIP1_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(1.0, 0.0),
 			      Const.TEAM1_COLOR,
 			      new KeyConfig(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_W)
 			      );
-	
-	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM1_SHIP2_X, Const.START_TEAM1_SHIP2_Y),
-			      new Vector2D(0.0, 0.0),
-			      new Vector2D(1.0, 0.0),
-			      Const.TEAM1_COLOR,
-			      new KeyConfig(KeyEvent.VK_F, KeyEvent.VK_H, KeyEvent.VK_G, KeyEvent.VK_T)
-			      );
-	
-	// Team 2
+	//Team 2 player 2
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM2_SHIP1_X, Const.START_TEAM2_SHIP1_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(-1.0, 0.0),
@@ -157,6 +165,15 @@ public class World {
 			      new KeyConfig(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_UP)
 			      );
 	
+	
+	// Team 1, player 3
+	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM1_SHIP2_X, Const.START_TEAM1_SHIP2_Y),
+			      new Vector2D(0.0, 0.0),
+			      new Vector2D(1.0, 0.0),
+			      Const.TEAM1_COLOR,
+			      new KeyConfig(KeyEvent.VK_F, KeyEvent.VK_H, KeyEvent.VK_G, KeyEvent.VK_T)
+			      );
+	//Team 2, player 4
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM2_SHIP2_X, Const.START_TEAM2_SHIP2_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(-1.0, 0.0),

@@ -96,6 +96,10 @@ public class Server implements Runnable {
 					
 				case '1' :
 					//Disconnect a user removing him and stuff
+					if(m_clients.containsKey(new ClientConnection(packet.getPort(), packet.getAddress()))){
+						m_clients.remove(new ClientConnection(packet.getPort(), packet.getAddress()));
+						System.out.println("Removed a client");
+					}
 					break;
 			}
 		}

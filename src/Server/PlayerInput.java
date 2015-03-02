@@ -39,8 +39,6 @@ public class PlayerInput implements Runnable {
 			else{
 				System.err.println("Did not exist in Client Map");
 			}
-			
-			
 		}	
 	}
 }
