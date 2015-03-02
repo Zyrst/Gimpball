@@ -25,7 +25,6 @@ public class PlayerInput implements Runnable {
 				System.err.println("Not able to receive packet");
 				e.printStackTrace();
 			}
-			System.out.println("Wooh received a package containing keys");
 			//TODO Make sure that the value of a buff is 0 or 1 and not 49 or something else
 			/*left = buf [0], right [1], forward[2], brake[3] */
 			int[] keys = {0,0,0,0};
@@ -36,7 +35,6 @@ public class PlayerInput implements Runnable {
 			if(m_Clients.containsKey(new ClientConnection(packet.getPort(),packet.getAddress()))){
 				Client client = m_Clients.get(new ClientConnection(packet.getPort(),packet.getAddress()));
 				client.setKeys(keys);
-				System.out.println("Set keys");
 			}
 			else{
 				System.err.println("Did not exist in Client Map");

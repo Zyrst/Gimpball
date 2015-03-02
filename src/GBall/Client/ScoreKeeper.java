@@ -15,8 +15,14 @@ public class ScoreKeeper {
     private int m_team2Score;
 
     public void changeScores(int deltaTeam1, int deltaTeam2) {
-		m_team1Score += deltaTeam1;
-		m_team2Score += deltaTeam2;
+    	// Fulhax
+		//m_team1Score += deltaTeam1;
+		//m_team2Score += deltaTeam2;
+    }
+    
+    public void setScores(int team1, int team2){
+    	m_team1Score = team1;
+    	m_team2Score = team2;
     }
 
     private ScoreKeeper() {

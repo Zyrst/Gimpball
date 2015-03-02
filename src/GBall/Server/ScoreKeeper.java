@@ -23,7 +23,11 @@ public class ScoreKeeper {
 		m_team1Score = 0;
 		m_team2Score = 0;
     }
-
+    
+    public String getScore(){
+    	return String.valueOf(m_team1Score) + "/" + String.valueOf(m_team2Score);
+    }
+    
     public void render(java.awt.Graphics g) {
 		g.setFont(Const.SCORE_FONT);
 		g.setColor(Const.TEAM1_COLOR);

@@ -32,9 +32,14 @@ public class GameClient {
 		//Time to shake some hands
 		handshake();
 		
+		World.getInstance().setShipID(m_shipNum);
+		
 		//Send keyinput
 		Thread output = new Thread(new OutputThread(m_socket,m_shipNum, m_gamePort, m_serverAddress));
 		output.start();
+		
+		Thread input = new Thread(new InputThread(m_socket));
+		input.start();
 		
 		World.getInstance().process();
 	

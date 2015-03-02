@@ -75,6 +75,10 @@ public abstract class GameEntity implements Serializable{
 	    m_speed.setLength(m_maxSpeed);
 	}
     }
+    
+    public void setSpeed(double x, double y){
+    	m_speed.set(x, y);
+    }
 
     public void resetPosition() {
 	m_position.set(m_initialPosition.getX(), m_initialPosition.getY());
@@ -123,6 +127,9 @@ public abstract class GameEntity implements Serializable{
     
     public int getID(){
     	return -1;
+    }
+    public void setDirection(double x, double y){
+    	m_direction.set(x, y);
     }
 }
 

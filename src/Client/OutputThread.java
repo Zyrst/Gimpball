@@ -16,6 +16,8 @@ public class OutputThread implements Runnable {
 	private static InetAddress m_serverAddress;
 	private static EntityManager m_entities;
 	
+	private static int m_polRate = 100;
+	
 	OutputThread(DatagramSocket socket, int shipNumber, int port, InetAddress address){
 		System.out.println("Started a client output thread");
 		m_socket = socket;
@@ -42,8 +44,6 @@ public class OutputThread implements Runnable {
 				}
 			}
 			
-			//System.out.println(keys[0] + " | " + keys[1] + " | " + keys[2] + " | " + keys[3]);
-			
 			DatagramPacket packet = new DatagramPacket(buf,buf.length,m_serverAddress, m_gamePort);
 			try {
 				m_socket.send(packet);
@@ -53,7 +53,7 @@ public class OutputThread implements Runnable {
 			}
 			try {
 				// TODO Change delay
-				Thread.sleep(10);
+				Thread.sleep(m_polRate);
 			} catch (InterruptedException e) {
 				System.err.println("Did not want to sleep output thread");
 				e.printStackTrace();

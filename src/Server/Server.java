@@ -32,6 +32,7 @@ public class Server implements Runnable {
 		output.start();
 		
 		World.getInstance().setClientMap(m_clients);
+		World.getInstance().setMessageQueue(m_messageQueue);
 		World.getInstance().process();
 	}
 	
@@ -43,7 +44,6 @@ public class Server implements Runnable {
 			e.printStackTrace();
 			System.err.println("Not able to bind server sockets");
 		} 
-		System.out.println("Client port: " + m_clientSocket.getLocalPort());
 	}
 	
 	@Override
@@ -77,7 +77,6 @@ public class Server implements Runnable {
 					buf = new byte[24];
 					if(m_clients.containsKey(clientConnection)){
 						// Client exists in map
-						System.out.println("Size of clients: " + (m_clients.size() - 1));
 						String msg = "1 " + m_clientSocket.getLocalPort() + " " + (m_clients.size() - 1);
 						buf = msg.getBytes();
 					}
@@ -86,7 +85,7 @@ public class Server implements Runnable {
 						buf[0] = 0;
 					}
 					
-					packet = new DatagramPacket(buf, buf.length,packet.getAddress(), packet.getPort());
+					packet = new DatagramPacket(buf, buf.length, packet.getAddress(), packet.getPort());
 					try {
 						m_socket.send(packet);
 					} catch (IOException e) {

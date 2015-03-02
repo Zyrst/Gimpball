@@ -158,7 +158,6 @@ public class Ship extends GameEntity implements KeyListener {
     			if(keys[2] == true){
     				setAcceleration(Const.SHIP_MAX_ACCELERATION);
     				forward = true;
-    				System.out.println("Read keys from client");
     			}
     			else{
     				setAcceleration(0);

@@ -7,7 +7,10 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import Server.Client;
 import Server.ClientConnection;
@@ -17,7 +20,10 @@ public class World {
 	public static final String SERVERIP = "127.0.0.1"; // 'Within' the emulator!  
 	public static final int SERVERPORT = 4444;
 	
-	public static ConcurrentHashMap<ClientConnection, Client> m_clients;
+	private static int m_pollRate = 100;
+	
+	private static ConcurrentHashMap<ClientConnection, Client> m_clients;
+	private static ConcurrentLinkedQueue<byte[]> m_messageQueue;
     
 	private static class WorldSingletonHolder { 
         public static final World instance = new World();
@@ -62,14 +68,53 @@ public class World {
 		e.printStackTrace();
 	}
     
-	
+	long startTime = System.currentTimeMillis();
+
 	while(true) {
 	    if(newFrame()) {
-	    EntityManager.getInstance().readKeyInput();
-		EntityManager.getInstance().updatePositions();
-		EntityManager.getInstance().checkBorderCollisions(Const.DISPLAY_WIDTH, Const.DISPLAY_HEIGHT);
-		EntityManager.getInstance().checkShipCollisions();
-		m_gameWindow.repaint();
+		    EntityManager.getInstance().readKeyInput();
+			EntityManager.getInstance().updatePositions();
+			EntityManager.getInstance().checkBorderCollisions(Const.DISPLAY_WIDTH, Const.DISPLAY_HEIGHT);
+			EntityManager.getInstance().checkShipCollisions();
+			m_gameWindow.repaint();
+			
+			if(System.currentTimeMillis() > startTime + m_pollRate){
+				//Send positions
+				startTime = System.currentTimeMillis();
+				LinkedList<GameEntity> entities = EntityManager.getInstance().getState();
+				String all[] = new String[5];
+				int counter = 0;
+				for(Iterator<GameEntity> itr = entities.iterator();itr.hasNext();){
+					GameEntity g = itr.next();
+					String positionX = String.valueOf((float)g.getPosition().getX());
+					String positionY = String.valueOf((float)g.getPosition().getY());
+					
+					String directionX = String.valueOf((float)g.getDirection().getX());
+					String directionY = String.valueOf((float)g.getDirection().getY());
+					//System.out.println(directionX + " current direction");					
+					
+					String speedX = String.valueOf((float)g.getSpeed().getX());
+					String speedY = String.valueOf((float)g.getSpeed().getY());
+					
+					String acceleration = String.valueOf((float) g.getAcceleration());
+					all[counter] = positionX + " " + positionY + " " + directionX + " " + directionY + " " + speedX + " " + speedY + " " + acceleration;
+					counter++;
+				}
+				
+				String message = "";
+				for(int i = 0; i < 5; i++){
+					if(i == 0){
+						message = all[i];
+					}
+					else{
+						message = message + "/" + all[i];
+					}
+				}
+				message = message + "/" + ScoreKeeper.getInstance().getScore();
+				byte[] byteMessage = message.getBytes();
+				m_messageQueue.add(byteMessage);
+			}
+			
 	    }
 	}
     }
@@ -139,5 +184,8 @@ public class World {
     public ConcurrentHashMap<ClientConnection, Client> getClientMap(){
     	return m_clients;
     }
-
+    
+    public void setMessageQueue(ConcurrentLinkedQueue<byte[]> queue){
+    	m_messageQueue = queue;
+    }
 }

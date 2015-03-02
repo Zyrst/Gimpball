@@ -2,12 +2,15 @@ package GBall.Client;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EntityManager {
-    private static LinkedList<GameEntity> m_entities = new LinkedList<GameEntity>();
+    private static Vector<GameEntity> m_entities = new Vector<GameEntity>();
     private static class SingletonHolder { 
         public static final EntityManager instance = new EntityManager();
     }
@@ -36,7 +39,17 @@ public class EntityManager {
     private EntityManager() {
     }
     
-    public void addShip(final Vector2D position, final Vector2D speed, final Vector2D direction, final Color color, final KeyConfig kc) {
+    public void addShip(final Vector2D position, final Vector2D speed, final Vector2D direction, final Color color) {
+    	KeyConfig kc;
+    	
+    	if(m_entities.size() == World.getInstance().getShipID()){
+    		kc = new KeyConfig(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_W);
+    	}
+    	
+    	else{
+    		kc = new KeyConfig();
+    	}
+    	
     	m_entities.add(new Ship(position, speed, direction, color, kc, m_entities.size()));
     }
 
@@ -101,7 +114,11 @@ public class EntityManager {
 
     public void checkShipCollisions() {
 	Vector2D v; // Vector from center of one ship to the other
-
+	if(m_entities.size() != 5){
+		while(true){
+		System.out.println("Size of vector: " + m_entities.size());
+		}
+	}
 	for(ListIterator<GameEntity> itr = m_entities.listIterator(0); itr.hasNext();) {	
 	    GameEntity s1 = itr.next();
 	    if(itr.hasNext()) { 
@@ -140,7 +157,7 @@ public class EntityManager {
 	}
     }
 
-	public static LinkedList<GameEntity> getState() {
+	public static Vector<GameEntity> getState() {
 		
 		return m_entities;
 	}

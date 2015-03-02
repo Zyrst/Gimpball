@@ -21,6 +21,7 @@ public class World {
         return WorldSingletonHolder.instance;
     }
 	
+    private static int m_shipID = -1;
 
     private double m_lastTime = System.currentTimeMillis();
     private double m_actualFps = 0.0;
@@ -30,6 +31,14 @@ public class World {
     private World() {
 	
 	
+    }
+    
+    public int getShipID(){
+    	return m_shipID;
+    }
+    
+    public void setShipID(int id){
+    	m_shipID = id;
     }
 
     public void process() {
@@ -86,30 +95,26 @@ public class World {
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM1_SHIP1_X, Const.START_TEAM1_SHIP1_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(1.0, 0.0),
-			      Const.TEAM1_COLOR,
-			      new KeyConfig(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_W)
+			      Const.TEAM1_COLOR
 			      );
 	
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM1_SHIP2_X, Const.START_TEAM1_SHIP2_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(1.0, 0.0),
-			      Const.TEAM1_COLOR,
-			      new KeyConfig(KeyEvent.VK_F, KeyEvent.VK_H, KeyEvent.VK_G, KeyEvent.VK_T)
+			      Const.TEAM1_COLOR
 			      );
 	
 	// Team 2
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM2_SHIP1_X, Const.START_TEAM2_SHIP1_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(-1.0, 0.0),
-			      Const.TEAM2_COLOR,
-			      new KeyConfig(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_UP)
+			      Const.TEAM2_COLOR
 			      );
 	
 	EntityManager.getInstance().addShip(new Vector2D(Const.START_TEAM2_SHIP2_X, Const.START_TEAM2_SHIP2_Y),
 			      new Vector2D(0.0, 0.0),
 			      new Vector2D(-1.0, 0.0),
-			      Const.TEAM2_COLOR,
-			      new KeyConfig(KeyEvent.VK_J, KeyEvent.VK_L, KeyEvent.VK_K, KeyEvent.VK_I)
+			      Const.TEAM2_COLOR
 			      );
 	
 	// Ball

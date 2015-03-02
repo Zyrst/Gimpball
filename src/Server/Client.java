@@ -16,7 +16,6 @@ public class Client {
 	//If not 1 generates a false which means the key is not pressed
 	public void setKeys(int[] keys){
 		//If key is 1 then it's pressed 
-		System.out.println("Setting keys for a client");
 		left 	= (keys[0] == 1);
 		right 	= (keys[1] == 1);
 		forward = (keys[2] == 1);

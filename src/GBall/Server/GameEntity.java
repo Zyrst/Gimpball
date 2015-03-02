@@ -124,5 +124,9 @@ public abstract class GameEntity implements Serializable{
     public int getID(){
     	return -1;
     }
+    
+    public double getAcceleration(){
+    	return m_acceleration;
+    }
 }
 
